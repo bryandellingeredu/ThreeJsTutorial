@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
-import {GUI} from 'dat.gui'
+import { setupGUI } from './setupGui';
 
 const scene = new THREE.Scene()
 
@@ -36,38 +36,10 @@ function onWindowResize() {
     render()
 }
 const stats = new Stats()
+setupGUI(cube, camera);
 document.body.appendChild(stats.dom)
 
-const gui = new GUI()
-const cubeFolder = gui.addFolder("Cube")
-const cameraFolder = gui.addFolder("Camera")
-cubeFolder.open()
-cameraFolder.open()
 
-const rotationHelper = {
-    x: cube.rotation.x,
-    y: cube.rotation.y,
-    z: cube.rotation.z,
-  };
-
-  const cameraPositionHelper = {
-    z: camera.position.z,
-  };
-
-
-  const onChange = (axis: 'x' | 'y' | 'z') => (value: number) => {
-    cube.rotation[axis] = value;
-  };
-
-  const onCameraPositionChange = (axis: 'z') => (value: number) => {
-    camera.position[axis] = value;
-  };
-
-  cubeFolder.add(rotationHelper, 'x', 0, Math.PI * 2).onChange(onChange('x'));
-  cubeFolder.add(rotationHelper, 'y', 0, Math.PI * 2).onChange(onChange('y'));
-  cubeFolder.add(rotationHelper, 'z', 0, Math.PI * 2).onChange(onChange('z'));
-
-  cameraFolder.add(cameraPositionHelper, 'z', 0, 20).onChange(onCameraPositionChange('z'));
 
 
 function animate() {
